@@ -11,7 +11,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">CMS</a>
+                <a class="navbar-brand" href="index.php">Home</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -27,7 +27,7 @@
                     $id = $row['id'];
                     $cat_title = $row['cat_title'];
                     ?>
-                    <li><a href="#"><?php echo $cat_title ?></a></li>
+                    <li><a href="category.php?category=<?php echo $id?>"><?php echo $cat_title ?></a></li>
                 <?php } ?>
                     <li>
                         <a href="admin"> Admin</a>

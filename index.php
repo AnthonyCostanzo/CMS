@@ -21,7 +21,7 @@
                 <!-- First Blog Post -->
                 <?php 
                     global $connection;
-                    $query = 'SELECT * FROM posts LIMIT 3';
+                    $query = 'SELECT * FROM posts LIMIT 7';
                     $result = mysqli_query($connection,$query);
                     if(!$result) {
                         die('error');
@@ -44,7 +44,7 @@
                 <hr>
                 <img class="img-responsive" src="<?php echo $post_image ?>" alt="">
                 <hr>
-                <p><?php echo $post_content ?></p>
+                <p><?php echo strlen($post_content) ? substr($post_content,0,200) . " ...": ""?></p>
                 <a class="btn btn-primary" href="post.php?p_id=<?php echo $post_id?>">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
 
                 <hr>

@@ -37,7 +37,7 @@
         $id = $row['id'];
         $cat_title = $row['cat_title'];
         ?>
-         <li><a href="#"><?php echo $cat_title ?></a></li>
+         <li><a href="category.php?category=<?php echo $id ?>"><?php echo $cat_title ?></a></li>
     <?php } ?>
                
                
@@ -57,7 +57,7 @@
         $id = $row['id'];
         $cat_title = $row['cat_title'];
         ?>
-         <li><a href="#"><?php echo $cat_title ?></a></li>
+         <li><a href="category.php?category=<?php echo $id ?>"><?php echo $cat_title ?></a></li>
     <?php } ?>
                
             </ul>
