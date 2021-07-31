@@ -6,8 +6,8 @@
                                     <th>Id</th>
                                     <th>Author</th>
                                     <th>Email</th>
+                                    <th> Comment </th>
                                     <th>In Response To</th>
-                                    <th> Content</th>
                                     <th> Status</th>
                                     <th>Date</th>
                                     <th>Approve</th>
@@ -19,6 +19,26 @@
                                 <?php showAllComments(); ?>
                             </tbody>
                         </table>
+
+<?php 
+    if(isset($_GET['approve'])) {
+        $id = $_GET['approve'];
+        $query = "UPDATE comments SET comment_status = 'approved' WHERE comment_id = $id";
+        $approve_comment = mysqli_query($connection,$query);
+        header('location:comments.php');
+
+    }
+
+    if(isset($_GET['unapprove'])) {
+        $id = $_GET['unapprove'];
+        $query = "UPDATE comments SET comment_status = 'unapproved' WHERE comment_id = $id";
+        $approve_comment = mysqli_query($connection,$query);
+        header('location:comments.php');
+
+    }
+
+
+?>
 <?php 
 if(isset($_GET['delete'])) {
     $id = $_GET['delete'];

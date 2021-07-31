@@ -61,6 +61,8 @@
                                 <thead>
                                     <th>ID</th>
                                     <th>Category Title</th>
+                                    <th>Edit</th>
+                                    <th>Delete</th>
                                 </thead>
                                 <tbody>
                                   <?php displayCategories() ?>

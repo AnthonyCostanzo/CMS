@@ -23,7 +23,7 @@ if(isset($_GET['delete'])) {
     $id = $_GET['delete'];
     $query = "DELETE FROM posts WHERE post_id = $id";
     $result = mysqli_query($connection,$query);
-    confirm($result);
+    header('Location:posts.php');
 }
 
 ?>

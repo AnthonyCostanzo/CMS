@@ -28,7 +28,7 @@
     </div>
 
     <div class="form-group">
-       <select name='cat_id'>
+       <select name='cat_id' class = 'form-control'>
         <?php 
             $query = 'SELECT * from categories';
             $all_categories = mysqli_query($connection,$query);
@@ -49,8 +49,12 @@
     </div>
 
     <div class="form-group">
-        <label for = 'image'>Post Status</label>
-        <input type = 'text' name = 'status' class = 'form-control'>
+        <label for = 'status'>Post Status</label>
+        <select name = 'status' class = 'form-control'>
+            <option value='draft'>Draft</option>
+            <option value='published'>Published</option>
+        </select>
+
     </div>
 
     <div class="form-group">

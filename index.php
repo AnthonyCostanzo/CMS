@@ -13,19 +13,19 @@
             <!-- Blog Entries Column -->
             <div class="col-md-8">
 
-                <h1 class="page-header">
-                    Blog Posts
-                    <small>Read Below!</small>
-                </h1>
+                
 
                 <!-- First Blog Post -->
                 <?php 
                     global $connection;
-                    $query = 'SELECT * FROM posts LIMIT 7';
+                    $query = "SELECT * FROM posts WHERE post_status = 'published'";
                     $result = mysqli_query($connection,$query);
                     if(!$result) {
                         die('error');
                     } 
+                   if(mysqli_num_rows($result) === 0) { 
+                       echo "<h1 class='text-center'> No Posts Available </h1>";
+                    } else {
                     while($row = mysqli_fetch_assoc($result)) {
                         $post_id = $row['post_id'];
                         $post_title = $row['post_title'];
@@ -33,7 +33,12 @@
                         $post_date = $row['post_date'];
                         $post_image = $row['post_image'];
                         $post_content = $row['post_content'];
+                        $post_status = $row['post_status'];
                         ?>
+                    <h1 class="page-header">
+                    Blog Posts
+                    <small>Read Below!</small>
+                </h1>
                 <h2>
                     <a href="post.php?p_id=<?php echo $post_id?>"><?php echo $post_title ?></a>
                 </h2>
@@ -48,7 +53,7 @@
                 <a class="btn btn-primary" href="post.php?p_id=<?php echo $post_id?>">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
 
                 <hr>
-                   <?php } ?>
+                   <?php }} ?>
              </div>
 
             <!-- Blog Sidebar Widgets Column -->

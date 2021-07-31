@@ -82,8 +82,8 @@ function deleteCategory() {
         echo '<tr>';
         echo "<td>$cat_id</td>";
         echo "<td>$cat_title</td>";
-        echo "<td><a href='categories.php?delete=$cat_id'>Delete</a></td>";
         echo "<td><a href='categories.php?edit=$cat_id'>Edit</a></td>";
+        echo "<td><a href='categories.php?delete=$cat_id'>Delete</a></td>";
         echo "</tr>";
  }
 }
@@ -110,7 +110,7 @@ function showAllPosts() {
         <tr>
             <td><?php echo $id ?></td>
             <td><?php echo $author ?></td>
-            <td><?php echo $title ?></td>
+            <td><a href="../post.php?p_id=<?php echo $id ?>"><?php echo $title ?></a></td>
             <?php 
                   $query = "SELECT * FROM categories WHERE id = '$cat_id'";
                   $category = mysqli_query($connection,$query);
@@ -187,12 +187,12 @@ function showAllComments() {
                   };
 
             ?>
-            <td><a href = "../post.php?p_id=<?php echo $post_id ?>"><?php echo $post_title ?></a></td>
             <td><?php echo $content ?></td>
+            <td><a href = "../post.php?p_id=<?php echo $post_id ?>"><?php echo $post_title ?></a></td>
             <td><?php echo $status ?></td>
             <td><?php echo $date ?></td>
-            <td><a href="comments.php?action=approve&id=<?php echo $id ?>">Approve</a></td>
-            <td><a href="comments.php?action=unapprove&id=<?php echo $id ?>">Unapprove</a></td>
+            <td><a href="comments.php?approve=<?php echo $id ?>">Approve</a></td>
+            <td><a href="comments.php?unapprove=<?php echo $id ?>">Unapprove</a></td>
             <td><a href="comments.php?delete=<?php echo $id ?>">Delete</a></td>
         </tr>
 <?php        
@@ -200,5 +200,37 @@ function showAllComments() {
 }
 ?>
 
-   
-    
+<?php 
+function showAllUsers() {
+    global $connection;
+    $query = "SELECT * FROM users";
+    $all_users = mysqli_query($connection,$query);
+    if(!$all_users) die ('error retrieving users');
+    while($row = mysqli_fetch_assoc($all_users)) {
+        $id = $row['user_id'];
+        $username = $row['username'];
+        $password = $row['password'];
+        $firstname = $row['firstname'];
+        $lastname = $row['lastname'];
+        $email = $row['email'];
+        $user_image = $row['user_image'];
+        $user_role = $row['user_role'];
+        ?>
+        <tr>
+            <td><?php echo $id ?></td>
+            <td><?php echo $username ?></td>
+            <td><?php echo $firstname ?></td>
+            <td><?php echo $lastname ?></td>
+            <td><?php echo $email ?></td>
+            <td><img class='img-fluid' src="<?php echo $user_image ?>" height="75px"></td>
+            <td><?php echo $user_role ?></td>
+            <td><a href="users.php?changetoadmin=<?php echo $id ?>">Admin</a></td>
+            <td><a href="users.php?changetosub=<?php echo $id ?>">Subscriber</a></td>
+            <td><a href="users.php?source=edit_user&user_id=<?php echo $id ?>">Edit</a></td>
+            <td><a href="users.php?delete=<?php echo $id ?>">Delete</a></td>
+        </tr>
+<?php        
+    }
+}
+?>
+

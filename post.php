@@ -63,11 +63,13 @@
             $comment_email = $_POST['comment_email'];
             $comment_content = $_POST['comment_content'];
             $date = date('y-m-d');
-            $status = 'approved';
+            $status = 'unapproved';
             $p_id = $_GET['p_id'];
             $query = "INSERT INTO comments (comment_author,comment_post_id,comment_email,comment_content,comment_date,comment_status) ";
             $query.= "VALUES('$comment_author',$p_id,'$comment_email','$comment_content','$date','$status')";
             $result = mysqli_query($connection,$query);
+            $update_comment_count_query = "UPDATE posts set comment_count = comment_count + 1 WHERE post_id = $p_id";
+            $update_comment_count = mysqli_query($connection,$update_comment_count_query);
         }   
         ?>
                 <!-- Comments Form -->
@@ -96,7 +98,7 @@
                 <!-- Posted Comments -->
                 <?php 
                     $p_id = $_GET['p_id'];
-                    $query = "SELECT * FROM comments WHERE comment_post_id = $p_id";
+                    $query = "SELECT * FROM comments WHERE comment_post_id = $p_id AND comment_status = 'approved' ORDER BY comment_id DESC";
                     $related_comments = mysqli_query($connection,$query);
                     while($row = mysqli_fetch_assoc($related_comments)) {
                         $id = $row['comment_id'];
