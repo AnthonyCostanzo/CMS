@@ -12,7 +12,7 @@
                     <div class="col-lg-12">
                         <h1 class="page-header">
                           Welcome to the Admin Dashboard
-                          <small>Anthony</small>
+                          <small><?php echo $_SESSION['firstname'] ?></small>
                         </h1>
                     
 

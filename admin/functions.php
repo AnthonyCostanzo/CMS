@@ -234,3 +234,17 @@ function showAllUsers() {
 }
 ?>
 
+<?php 
+    function getCount($table) {
+        global $connection;
+        $query = "SELECT * FROM $table";
+        $result = mysqli_query($connection,$query);
+        $count = mysqli_num_rows($result);
+        echo $count;
+    }
+
+?>
+
+
+
+

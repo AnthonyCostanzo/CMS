@@ -32,7 +32,8 @@
     </div>
 
     <div class="form-group">
-       <select name='cat_id'>
+        <label for = 'category'>Category</label>
+       <select name='cat_id' class = 'form-control'>
         <?php 
             $query = 'SELECT * from categories';
             $all_categories = mysqli_query($connection,$query);
@@ -53,8 +54,18 @@
     </div>
 
     <div class="form-group">
-        <label for = 'image'>Post Status</label>
-        <input type = 'text' name = 'status' class = 'form-control' value = "<?php echo $status?>">
+        <label for = 'status'>Post Status</label>
+        <select name = 'status' class='form-control'>
+        <option value = '<?php echo $status ?>'><?php  echo $status ?></option>
+        <?php if($status === 'draft') {
+            echo "<option value ='published'> published </option>";
+            } else echo "<option value = 'draft'> draft </option>";
+
+        ?>
+        
+     
+
+        </select>
     </div>
 
     <div class="form-group">
@@ -69,7 +80,7 @@
 
     <div class="form-group">
         <label for = 'post_content'>Post Content</label>
-        <textarea class = 'form-control' name='post_content' id="" rows="10" cols="30" placeholder = "<?php echo $content?>"></textarea>
+        <textarea class = 'form-control' name='post_content' id="" rows="10" cols="30" ><?php echo $content?></textarea>
     </div>
     <div class="form-group">
         <input class = 'btn btn-primary' name='update_post' type = 'submit' value = 'Update Post'> 

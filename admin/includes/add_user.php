@@ -9,9 +9,9 @@
         $user_role = $_POST['user_role'];
         $query = "INSERT INTO users(username,password,firstname,lastname,email,user_image,user_role) ";
         $query.= "VALUES('$username','$password','$firstname','$lastname','$email','$image','$user_role')";
-        $add_post = mysqli_query($connection,$query);
-        if(!$add_post) die('Error Adding User ');
-        header("Location:users.php");
+        $add_user = mysqli_query($connection,$query);
+        if(!$add_user) die('Error Adding User ');
+        echo "User Created: " . "<a href='users.php'>View Users</a>";
     }
 
 

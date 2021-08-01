@@ -28,6 +28,7 @@
     </div>
 
     <div class="form-group">
+        <label for='cat_id'>Category</label>
        <select name='cat_id' class = 'form-control'>
         <?php 
             $query = 'SELECT * from categories';
