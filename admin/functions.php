@@ -108,6 +108,7 @@ function showAllPosts() {
         $comments = $row['comment_count'];
         ?>
         <tr>
+            <td><input type='checkbox' class='checkboxes' name='checkboxArray[]' value="<?php echo $id ?>"></td>
             <td><?php echo $id ?></td>
             <td><?php echo $author ?></td>
             <td><a href="../post.php?p_id=<?php echo $id ?>"><?php echo $title ?></a></td>
@@ -134,7 +135,7 @@ function showAllPosts() {
 ?>
 
 <?php 
-function updateCategory() {
+function updatePost() {
     global $connection;
     $id = $_GET['id'];
     if(isset($_POST['update_post'])) {
@@ -154,8 +155,9 @@ function updateCategory() {
         $query.= "post_image ='$image' ";
         $query.= "WHERE post_id = $id";
         $result = mysqli_query($connection,$query);
-        confirm($result);
-        header("Location:posts.php");
+        echo "<p class = 'bg-success'>Post Successfully Updated <a href='../post.php?p_id=$id'>View Post</a> Or
+        <a href='./posts.php'>Edit More Posts </a> </p>";
+        
     }    
 }
 ?>

@@ -1,4 +1,4 @@
-
+<?php updatePost(); ?>
 <?php
     if(isset($_GET['id'])) {
         $id = $_GET['id'];
@@ -17,6 +17,12 @@
             $status = $row['post_status'];
             $comments = $row['comment_count'];
         }
+        $query = "SELECT * FROM categories WHERE id = $cat_id";
+        $get_cat_title = mysqli_query($connection,$query);
+        while($row = mysqli_fetch_assoc($get_cat_title)) {
+            $cat_id = $row['id'];
+            $current_cat_title = $row['cat_title'];
+        }
     }
 
 
@@ -33,9 +39,10 @@
 
     <div class="form-group">
         <label for = 'category'>Category</label>
-       <select name='cat_id' class = 'form-control'>
+        <select name='cat_id' class = 'form-control'>
+        <option value='<?php echo $cat_id?>'><?php echo $current_cat_title?></option>
         <?php 
-            $query = 'SELECT * from categories';
+            $query = "SELECT * from categories WHERE cat_title != '$current_cat_title'";
             $all_categories = mysqli_query($connection,$query);
             while($row = mysqli_fetch_assoc($all_categories)) {
                 $cat_id = $row['id'];
@@ -87,4 +94,4 @@
     </div>
 </form>
 
-<?php updateCategory(); ?>
+
