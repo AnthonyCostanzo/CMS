@@ -127,7 +127,7 @@ function showAllPosts() {
             <td><?php echo $comments ?></td>
             <td><?php echo $date ?></td>
             <td><a href="posts.php?source=edit_post&id=<?php echo $id ?>">Edit</a></td>
-            <td><a href="posts.php?delete=<?php echo $id ?>">Delete</a></td>
+            <td><a onClick="javascript:return confirm('Are you sure you want to delete this post?')" href="posts.php?delete=<?php echo $id ?>">Delete</a></td>
         </tr>
 <?php        
     }
@@ -155,6 +155,9 @@ function updatePost() {
         $query.= "post_image ='$image' ";
         $query.= "WHERE post_id = $id";
         $result = mysqli_query($connection,$query);
+        if(!$result) {
+            echo "<p class = 'bg-danger'> Error Updating Post </p>";
+        }
         echo "<p class = 'bg-success'>Post Successfully Updated <a href='../post.php?p_id=$id'>View Post</a> Or
         <a href='./posts.php'>Edit More Posts </a> </p>";
         

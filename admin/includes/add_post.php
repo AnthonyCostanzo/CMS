@@ -11,8 +11,14 @@
         $query = "INSERT INTO posts(post_category_id,post_title,post_author,post_date,post_image,post_content,post_status,post_tags) ";
         $query.= "VALUES('$cat_id','$title','$author',now(),'$image','$content','$status','$tags')";
         $add_post = mysqli_query($connection,$query);
-        if(!$add_post) die(mysqli_error($connection));
-        header("Location:posts.php");
+        $id = mysqli_insert_id($connection);
+        if(!$add_post) {
+            echo "<p class ='bg-danger'> Error Adding Post </p>";
+        } else {
+            echo "<p class = 'bg-success'>Post Successfully Created <a href='../post.php?p_id=$id'>View Post</a> Or
+            <a href='./posts.php'>View All Posts </a> </p>";
+        }
+       
     }
 
 
@@ -24,7 +30,7 @@
 <form action="" method = 'POST' enctype="multipart/form-data">
     <div class="form-group">
         <label for = 'title'>Post Title</label>
-        <input type = 'text' name = 'title' class = 'form-control'>
+        <input type = 'text' name = 'title' class = 'form-control' required>
     </div>
 
     <div class="form-group">
@@ -46,7 +52,7 @@
 
     <div class="form-group">
         <label for = 'author'>Post Author</label>
-        <input type = 'text' name = 'author' class = 'form-control'>
+        <input type = 'text' name = 'author' class = 'form-control' required>
     </div>
 
     <div class="form-group">

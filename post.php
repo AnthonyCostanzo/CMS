@@ -35,7 +35,7 @@
 
                 <!-- Author -->
                 <p class="lead">
-                    by <a href="#"><?php echo $author ?></a>
+                    by <a href="author_post.php?author=<?php echo $author ?>&p_id=<?php echo $post_id?>"><?php echo $author ?></a>
                 </p>
 
                 <hr>
@@ -62,14 +62,19 @@
             $comment_author = $_POST['comment_author'];
             $comment_email = $_POST['comment_email'];
             $comment_content = $_POST['comment_content'];
-            $date = date('y-m-d');
-            $status = 'unapproved';
-            $p_id = $_GET['p_id'];
-            $query = "INSERT INTO comments (comment_author,comment_post_id,comment_email,comment_content,comment_date,comment_status) ";
-            $query.= "VALUES('$comment_author',$p_id,'$comment_email','$comment_content','$date','$status')";
-            $result = mysqli_query($connection,$query);
-            $update_comment_count_query = "UPDATE posts set comment_count = comment_count + 1 WHERE post_id = $p_id";
-            $update_comment_count = mysqli_query($connection,$update_comment_count_query);
+            if(empty($comment_author) || empty($comment_email) || empty($comment_content)) {
+                echo "<p class = 'bg-danger'> Fields must not be empty</p>";
+            } else {
+                $date = date('y-m-d');
+                $status = 'approved';
+                $p_id = $_GET['p_id'];
+                $query = "INSERT INTO comments (comment_author,comment_post_id,comment_email,comment_content,comment_date,comment_status) ";
+                $query.= "VALUES('$comment_author',$p_id,'$comment_email','$comment_content','$date','$status')";
+                $result = mysqli_query($connection,$query);
+                $update_comment_count_query = "UPDATE posts set comment_count = comment_count + 1 WHERE post_id = $p_id";
+                $update_comment_count = mysqli_query($connection,$update_comment_count_query);
+                echo "<p class = 'bg-success'> Comment Added! </p>";
+            }
         }   
         ?>
                 <!-- Comments Form -->

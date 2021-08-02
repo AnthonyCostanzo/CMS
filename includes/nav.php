@@ -17,7 +17,7 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
              <?php 
-                $query = 'SELECT * FROM categories';
+                $query = 'SELECT * FROM categories LIMIT 4';
                 $result = mysqli_query($connection,$query);
                 if(!$result) {
                     die('error fetching categories');
@@ -30,6 +30,9 @@
                 <?php } ?>
                     <li>
                         <a href="admin"> Admin</a>
+                    </li>
+                    <li>
+                        <a href="registration.php">Register</a>
                     </li>
                         <?php 
                             if(isset($_SESSION['id'])) {

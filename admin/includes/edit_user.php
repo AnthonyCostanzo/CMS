@@ -25,7 +25,11 @@
         $email = $_POST['email'];
         $image = $_POST['image'];
         $user_role = $_POST['user_role'];
-    
+        $salt_query = 'SELECT randSalt from users';
+        $select_randsalt = mysqli_query($connection,$salt_query);
+        $row = mysqli_fetch_assoc($select_randsalt);
+        $randsalt = $row['randSalt'];
+        $password = crypt($password,$randsalt);
         $query = "UPDATE users set username = '$username', ";
         $query.= "password='$password', ";
         $query.= "firstname='$firstname', ";
@@ -49,7 +53,7 @@
     </div>
     <div class="form-group">
         <label for = 'password'>Password</label>
-        <input type = 'text' name = 'password' class = 'form-control' value = "<?php echo $password?>">
+        <input type = 'password' name = 'password' class = 'form-control' value = "<?php echo $password?>">
     </div>
 
      <div class="form-group">

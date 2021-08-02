@@ -14,7 +14,10 @@
             <div class="col-md-8">
 
                 
-
+            <h1 class="page-header">
+                    Blog Posts
+                    <small>Read Below!</small>
+                </h1>
                 <!-- First Blog Post -->
                 <?php 
                     global $connection;
@@ -35,15 +38,12 @@
                         $post_content = $row['post_content'];
                         $post_status = $row['post_status'];
                         ?>
-                    <h1 class="page-header">
-                    Blog Posts
-                    <small>Read Below!</small>
-                </h1>
+                
                 <h2>
                     <a href="post.php?p_id=<?php echo $post_id?>"><?php echo $post_title ?></a>
                 </h2>
                 <p class="lead">
-                    by <a href="index.php"><?php echo $post_author ?></a>
+                    by <a href="author_post.php?author=<?php echo $post_author ?>&p_id=<?php echo $post_id?>"><?php echo $post_author ?></a>
                 </p>
                 <p><span class="glyphicon glyphicon-time"></span> Posted on <?php echo $post_date ?> </p>
                 <hr>
