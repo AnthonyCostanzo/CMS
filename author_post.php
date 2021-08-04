@@ -17,12 +17,12 @@
                     <small>Read Below!</small>
                 </h1>
             <?php 
-  if(isset($_GET['p_id'])) {
-      $post_id = $_GET['p_id'];
+  if(isset($_GET['author'])) {
       $author = $_GET['author'];
       $query = "SELECT * FROM posts WHERE post_author = '$author'";
       $result = mysqli_query($connection,$query);
       while($row = mysqli_fetch_assoc($result)) {
+        $post_id = $row['post_id'];
         $cat_id = $row['post_category_id'];
         $title = $row['post_title'];
         $author = $row['post_author'];
@@ -40,7 +40,7 @@
                 <!-- Blog Post -->
 
                 <!-- Title -->
-                <h1><?php echo $title ?></h1>
+                <h1><a href='post.php?p_id=<?php echo $post_id?>'><?php echo $title ?></a></h1>
 
                 <!-- Author -->
                 <p class="lead">

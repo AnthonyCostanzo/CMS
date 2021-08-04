@@ -1,7 +1,7 @@
 <?php include "./includes/header.php";?>
     <div id="wrapper">
-        <!-- Navigation -->
-        <?php include "includes/nav.php" ?>
+    <!-- Navigation -->
+       <?php include "includes/nav.php" ?>
         <div id="page-wrapper">
             <div class="container-fluid">
                 <!-- Page Heading -->
@@ -30,6 +30,7 @@
                                     </div>
                                     <div class="col-xs-9 text-right">
                                         <?php 
+                                        
                                             $query = "SELECT * FROM posts";
                                             $select_all_post = mysqli_query($connection,$query);
                                             $post_count = mysqli_num_rows($select_all_post);

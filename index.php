@@ -20,13 +20,27 @@
                 </h1>
                 <!-- First Blog Post -->
                 <?php 
-                    global $connection;
-                    $query = "SELECT * FROM posts WHERE post_status = 'published'";
+                    $per_page = 3;
+                   if(isset($_GET['page'])) {
+                       $page = $_GET['page'];
+                      
+                   } else {
+                       $page = "";
+                   }
+
+                   if($page === "" || $page == 1) {
+                       $page_1 = 0;
+                   } else {
+                       $page_1 = ($page * $per_page) - $per_page;
+                   }
+                    $all_posts_query = "SELECT * FROM posts";
+                    $select_all_post = mysqli_query($connection,$all_posts_query);
+                    $post_count = mysqli_num_rows($select_all_post);
+                    $post_count = ceil($post_count / $per_page);
+                    $query = "SELECT * FROM posts WHERE post_status = 'published' LIMIT $page_1, $per_page";
                     $result = mysqli_query($connection,$query);
-                    if(!$result) {
-                        die('error');
-                    } 
-                   if(mysqli_num_rows($result) === 0) { 
+                    if(!$result) die('error');
+                    if(mysqli_num_rows($result) === 0) { 
                        echo "<h1 class='text-center'> No Posts Available </h1>";
                     } else {
                     while($row = mysqli_fetch_assoc($result)) {
@@ -43,7 +57,7 @@
                     <a href="post.php?p_id=<?php echo $post_id?>"><?php echo $post_title ?></a>
                 </h2>
                 <p class="lead">
-                    by <a href="author_post.php?author=<?php echo $post_author ?>&p_id=<?php echo $post_id?>"><?php echo $post_author ?></a>
+                    by <a href="author_post.php?author=<?php echo $post_author ?>"><?php echo $post_author ?></a>
                 </p>
                 <p><span class="glyphicon glyphicon-time"></span> Posted on <?php echo $post_date ?> </p>
                 <hr>
@@ -55,6 +69,7 @@
                 <a class="btn btn-primary" href="post.php?p_id=<?php echo $post_id?>">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
 
                 <hr>
+                <hr>
                    <?php }} ?>
              </div>
 
@@ -65,5 +80,21 @@
         <!-- /.row -->
 
         <hr>
+        <div class = 'text-center'>
+        <ul class = 'pagination'>
+       <?php 
+            for($i = 1; $i <= $post_count; $i++) {
+                if($i == $page) {
+                    echo "<li class='page-item active '><a href = 'index.php?page=$i'>$i</li>";
+                } else {
+                    echo "<li class='page-item'><a href = 'index.php?page=$i'>$i</li>";
+                }
+                
+            }
+       ?>
+      
+   </ul>
+        </div>
+  
 <!-- Footer -->
     <?php include './includes/footer.php' ?>

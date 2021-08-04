@@ -51,7 +51,12 @@
                 <th>Image</th>
                 <th>Tags</th>
                 <th>Comments</th>
+                <th>Views</th>
                 <th>Date</th>
+                <th>View Post</th>
+                <th>Reset Views</th>
+                <th>Edit</th>
+                <th>Delete</th>
             </tr>
         </thead>
          <tbody>
@@ -66,5 +71,10 @@ if(isset($_GET['delete'])) {
     $result = mysqli_query($connection,$query);
     header('Location:posts.php');
 }
-
+if(isset($_GET['resetviews'])) {
+    $id = $_GET['resetviews'];
+    $query = "UPDATE posts SET post_views_count = 0 WHERE post_id = $id";
+    $result = mysqli_query($connection,$query);
+    header('Location:posts.php');
+}
 ?>

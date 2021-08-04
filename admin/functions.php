@@ -1,7 +1,4 @@
-<?php include '../includes/db.php' ?>
-
 <?php 
-
 function confirm($result) {
     global $connection;
     if(!$result) {
@@ -15,6 +12,7 @@ function confirm($result) {
 <?php 
     function addCategory(){
         global $connection;
+
         if(isset($_POST['submit'])) {
             $cat_title = $_POST['cat_title'];
             if($cat_title === '' || empty($cat_title)) {
@@ -100,34 +98,44 @@ function showAllPosts() {
         $cat_id = $row['post_category_id'];
         $title = $row['post_title'];
         $author = $row['post_author'];
-        $content = $row['post_content'];
         $image = $row['post_image'];
         $date = $row['post_date'];
         $tags = $row['post_tags'];
         $status = $row['post_status'];
-        $comments = $row['comment_count'];
+        $view_count = $row['post_views_count'];
         ?>
         <tr>
-            <td><input type='checkbox' class='checkboxes' name='checkboxArray[]' value="<?php echo $id ?>"></td>
-            <td><?php echo $id ?></td>
-            <td><?php echo $author ?></td>
-            <td><a href="../post.php?p_id=<?php echo $id ?>"><?php echo $title ?></a></td>
-            <?php 
-                  $query = "SELECT * FROM categories WHERE id = '$cat_id'";
-                  $category = mysqli_query($connection,$query);
-                  while($row = mysqli_fetch_assoc($category)) {
-                      $cat_title = $row['cat_title'];
-                  };
+        <td><input type='checkbox' class='checkboxes' name='checkboxArray[]' value="<?php echo $id ?>"></td>
+        <td><?php echo $id ?></td>
+        <td><?php echo $author ?></td>
+        <td><?php echo $title ?></a></td>
+        <?php 
+                $query = "SELECT * FROM categories WHERE id = '$cat_id'";
+                $category = mysqli_query($connection,$query);
+                while($row = mysqli_fetch_assoc($category)) {
+                    $cat_title = $row['cat_title'];
+                };
 
-            ?>
-            <td><?php echo $cat_title ?></td>
-            <td><?php echo $status ?></td>
-            <td><img src="<?php echo $image ?>" height="50px"></td>
-            <td><?php echo $tags ?></td>
-            <td><?php echo $comments ?></td>
-            <td><?php echo $date ?></td>
-            <td><a href="posts.php?source=edit_post&id=<?php echo $id ?>">Edit</a></td>
-            <td><a onClick="javascript:return confirm('Are you sure you want to delete this post?')" href="posts.php?delete=<?php echo $id ?>">Delete</a></td>
+        ?>
+        <td><?php echo $cat_title ?></td>
+        <td><?php echo $status ?></td>
+        <td><img src="<?php echo $image ?>" height="50px"></td>
+        <td><?php echo $tags ?></td>
+        <?php 
+            $query = "SELECT * FROM comments WHERE comment_post_id = $id";
+            $get_comment_count = mysqli_query($connection,$query);
+            $row = mysqli_fetch_array($get_comment_count);
+            $comment_id = $row['comment_id'];
+            $comment_count = mysqli_num_rows($get_comment_count);
+        ?>
+        <td><a href='./post_comments.php?p_id=<?php echo $id?>'><?php echo $comment_count ?></a></td>
+        <td><?php echo $view_count ?></td>
+        <td><?php echo $date ?></td>
+        <td><a href="../post.php?p_id=<?php echo $id ?>">View Post</a></td>
+        <td><a href="posts.php?resetviews=<?php echo $id?>">Reset View Count</a></td>
+        <td><a href="posts.php?source=edit_post&id=<?php echo $id ?>">Edit</a></td>
+        <td><a onClick="javascript:return confirm('Are you sure you want to delete this post?')" href="posts.php?delete=<?php echo $id ?>">Delete</a></td>
+        
         </tr>
 <?php        
     }
@@ -250,6 +258,76 @@ function showAllUsers() {
 
 ?>
 
+<?php 
+    function usersOnline() {
+        if(isset($_GET['onlineusers'])) {
+            global $connection;
+            if(!$connection) {
+                session_start();
+                include '../includes/db.php';
+                $session = session_id();
+                $time = time();
+                $time_out_in_seconds = 5;
+                $time_out = $time - $time_out_in_seconds;
+                $query = "SELECT * FROM users_online WHERE session = '$session'";
+                $send_query = mysqli_query($connection,$query);
+                $count = mysqli_num_rows($send_query);
+            
+                if($count === 0) {
+                    mysqli_query($connection,"INSERT INTO users_online (session,time) VALUES('$session','$time')");
+                } else {
+                mysqli_query($connection,"UPDATE users_online SET time = '$time' WHERE session = '$session'");
+                }
+                $users_online_query = mysqli_query($connection,"SELECT * FROM users_online WHERE time > $time_out ");
+                $count_user = mysqli_num_rows($users_online_query);
+                echo $count_user;
+            }
+           
+        }
+    }
+  usersOnline();
+?>
 
-
-
+<?php 
+function postComments() {
+    global $connection;
+    if(isset($_GET['p_id'])) {
+        $p_id = $_GET['p_id'];
+        $query = "SELECT * FROM comments WHERE comment_post_id = $p_id ";
+        $post_comments = mysqli_query($connection,$query);
+        if(!$post_comments) die ('error retrieving comments');
+        while($row = mysqli_fetch_assoc($post_comments)) {
+            $id = $row['comment_id'];
+            $post_id = $row['comment_post_id'];
+            $author = $row['comment_author'];
+            $email = $row['comment_email'];
+            $content = $row['comment_content'];
+            $status = $row['comment_status'];
+            $date = $row['comment_date'];
+            ?>
+            <tr>
+                <td><?php echo $id ?></td>
+                <td><?php echo $author ?></td>
+                <td><?php echo $email ?></td>
+                <?php 
+                      $query = "SELECT * FROM posts WHERE post_id = '$post_id'";
+                      $category = mysqli_query($connection,$query);
+                      while($row = mysqli_fetch_assoc($category)) {
+                          $post_title = $row['post_title'];
+                      };
+    
+                ?>
+                <td><?php echo $content ?></td>
+                <td><a href = "../post.php?p_id=<?php echo $post_id ?>"><?php echo $post_title ?></a></td>
+                <td><?php echo $status ?></td>
+                <td><?php echo $date ?></td>
+                <td><a href="comments.php?approve=<?php echo $id ?>">Approve</a></td>
+                <td><a href="comments.php?unapprove=<?php echo $id ?>">Unapprove</a></td>
+                <td><a href="post_comments.php?delete=<?php echo $id ?>&p_id=<?php echo $post_id?>">Delete</a></td>
+            </tr>
+    <?php        
+        }
+    } 
+   
+}
+?>

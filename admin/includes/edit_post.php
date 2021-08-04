@@ -87,7 +87,7 @@
 
     <div class="form-group">
         <label for = 'post_content'>Post Content</label>
-        <textarea class = 'form-control' name='post_content' id="" rows="10" cols="30" ><?php echo $content?></textarea>
+        <textarea id='summernote' class = 'form-control' name='post_content' id="" rows="10" cols="30" ><?php echo $content?></textarea>
     </div>
     <div class="form-group">
         <input class = 'btn btn-primary' name='update_post' type = 'submit' value = 'Update Post'> 

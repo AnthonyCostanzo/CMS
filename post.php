@@ -11,6 +11,9 @@
             <?php 
   if(isset($_GET['p_id'])) {
       $post_id = $_GET['p_id'];
+      $view_query = "UPDATE posts SET post_views_count = post_views_count + 1 where post_id = '$post_id'";
+      $increment_views = mysqli_query($connection,$view_query);
+
       $query = "SELECT * FROM posts WHERE post_id = $post_id";
       $result = mysqli_query($connection,$query);
       while($row = mysqli_fetch_assoc($result)) {
@@ -35,7 +38,7 @@
 
                 <!-- Author -->
                 <p class="lead">
-                    by <a href="author_post.php?author=<?php echo $author ?>&p_id=<?php echo $post_id?>"><?php echo $author ?></a>
+                    by <a href="author_post.php?author=<?php echo $author ?>"><?php echo $author ?></a>
                 </p>
 
                 <hr>
@@ -71,8 +74,8 @@
                 $query = "INSERT INTO comments (comment_author,comment_post_id,comment_email,comment_content,comment_date,comment_status) ";
                 $query.= "VALUES('$comment_author',$p_id,'$comment_email','$comment_content','$date','$status')";
                 $result = mysqli_query($connection,$query);
-                $update_comment_count_query = "UPDATE posts set comment_count = comment_count + 1 WHERE post_id = $p_id";
-                $update_comment_count = mysqli_query($connection,$update_comment_count_query);
+                // $update_comment_count_query = "UPDATE posts set comment_count = comment_count + 1 WHERE post_id = $p_id";
+                // $update_comment_count = mysqli_query($connection,$update_comment_count_query);
                 echo "<p class = 'bg-success'> Comment Added! </p>";
             }
         }   
