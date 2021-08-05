@@ -18,6 +18,9 @@
     <!-- /.input-group -->
 </div>
 
+<?php 
+    if($_SESSION['id'] === NULL) {
+?>
 <!-- Login -->
 <div class="well">
     <h4>Login</h4>
@@ -36,6 +39,7 @@
     </form>
     <!-- /.input-group -->
 </div>
+    <?php }?>
 
 
 

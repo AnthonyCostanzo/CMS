@@ -164,7 +164,7 @@ function updatePost() {
         $status = escape($_POST['status']);
         $image = escape($_POST['image']);
         $tags = escape($_POST['tags']);
-        $content = escape($_POST['content']);
+        $content = escape($_POST['post_content']);
         $query = "UPDATE posts set post_title = '$title', ";
         $query.= "post_category_id='$cat_id', ";
         $query.= "post_author='$author', ";

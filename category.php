@@ -14,6 +14,9 @@ if(isset($_GET['category'])) {
     $cat_id = $_GET['category'];
     $query = "SELECT * FROM posts WHERE post_category_id = $cat_id";
     $related_posts = mysqli_query($connection,$query);
+    if(mysqli_num_rows($related_posts) === 0) {
+        echo "<h1 class = 'text-center'> No Posts At This Time</h1>";
+    } else {
     while($row = mysqli_fetch_assoc($related_posts)) {
         $title = $row['post_title'];
         $author = $row['post_author'];
@@ -110,6 +113,7 @@ if(isset($_GET['category'])) {
                     </div>
                 </div>
                 <?php }
+    }
   }
 ?>    
 <hr>

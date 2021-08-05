@@ -31,20 +31,29 @@
                     <li>
                         <a href="admin"> Admin</a>
                     </li>
-                    <li>
+                    <?php if(!isset($_SESSION['id'])) {
+                        ?>
+                     <li>
                         <a href="registration.php">Register</a>
                     </li>
+                    <?php } ?>
                         <?php 
                             if(isset($_SESSION['id'])) {
                                if(isset($_GET['p_id'])) {
                                 $p_id = $_GET['p_id'];
                      
-                                echo "<li> <a href='./admin/posts.php?source=edit_post&p_id=$p_id'>Edit Post</a></li>";
+                                echo "<li> <a href='./admin/posts.php?source=edit_post&id=$p_id'>Edit Post</a></li>";
                                }
                             }
                         ?>
-               
+               <?php if (isset($_SESSION['id'])) { ?>
+                <li>
+                        <a href="./includes/logout.php">Logout</a>
+                </li>
+                <?php } ?>
                 </ul>
+               
+  
             </div>
             <!-- /.navbar-collapse -->
         </div>
