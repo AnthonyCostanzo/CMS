@@ -57,8 +57,29 @@
 
     <div class="form-group">
         <label for = 'author'>Post Author</label>
-        <input type = 'text' name = 'author' class = 'form-control' value = "<?php echo $author?>">
+        <select name='author' class = 'form-control'>
+
+        <?php 
+            $query = "SELECT * from users WHERE user_id = '$author'";
+            $author_query = mysqli_query($connection,$query);
+            $row = mysqli_fetch_array($author_query);
+            $username = $row['username'];
+        ?>
+        <option value='<?php echo $author?>'><?php echo $username?></option>
+        <?php 
+            $query = "SELECT * from users WHERE user_id != $author ";
+            $all_users = mysqli_query($connection,$query);
+            while($row = mysqli_fetch_assoc($all_users)) {
+                $user_id = $row['user_id'];
+                $username = $row['username'];
+                ?>
+                <option value="<?php echo $user_id ?>"><?php echo ($username) ?></option>
+            <?php }
+
+        ?>
+        </select>
     </div>
+
 
     <div class="form-group">
         <label for = 'status'>Post Status</label>

@@ -34,10 +34,16 @@ if(isset($_GET['category'])) {
 
                 <!-- Title -->
                 <h1><?php echo $title ?></h1>
+                <?php 
+                    $query = "SELECT * FROM users WHERE user_id = $author";
+                    $get_user = mysqli_query($connection,$query);
+                    $row = mysqli_fetch_array($get_user);
+                    $post_author = $row['firstname'] . " " . $row['lastname'];
 
+                ?>
                 <!-- Author -->
                 <p class="lead">
-                    by <a href="#"><?php echo $author ?></a>
+                    by <a href="author_post.php?author=<?php echo $author?>"><?php echo $post_author ?></a>
                 </p>
 
                 <hr>

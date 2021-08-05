@@ -1,15 +1,15 @@
 <?php
     if(isset($_POST['create_post'])) {
-        $title = $_POST['title'];
-        $cat_id = $_POST['cat_id'];
-        $author = $_POST['author'];
-        $status = $_POST['status'];
-        $image = $_POST['image'];
+        $title = escape($_POST['title']);
+        $cat_id = escape($_POST['cat_id']);
+        $author = escape($_POST['author']);
+        $status = escape($_POST['status']);
+        $image = escape($_POST['image']);
         $date = date('y-m-d');
-        $tags = $_POST['tags'];
-        $content = $_POST['post_content'];
+        $tags = escape($_POST['tags']);
+        $content = escape($_POST['post_content']);
         $query = "INSERT INTO posts(post_category_id,post_title,post_author,post_date,post_image,post_content,post_status,post_tags) ";
-        $query.= "VALUES('$cat_id','$title','$author',now(),'$image','$content','$status','$tags')";
+        $query.= "VALUES('$cat_id','$title',$author,now(),'$image','$content','$status','$tags')";
         $add_post = mysqli_query($connection,$query);
         $id = mysqli_insert_id($connection);
         if(!$add_post) {
@@ -51,8 +51,20 @@
     </div>
 
     <div class="form-group">
-        <label for = 'author'>Post Author</label>
-        <input type = 'text' name = 'author' class = 'form-control' required>
+        <label for='author'>Post Author</label>
+       <select name='author' class = 'form-control'>
+        <?php 
+            $query = "SELECT * from users";
+            $users = mysqli_query($connection,$query);
+            while($row = mysqli_fetch_assoc($users)) {
+                $user_id = $row['user_id'];
+                $username = $row['username'];
+                ?>
+                <option value="<?php echo $user_id ?>"><?php echo $username ?></option>
+            <?php }
+
+        ?>
+        </select>
     </div>
 
     <div class="form-group">

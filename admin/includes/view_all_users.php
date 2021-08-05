@@ -22,10 +22,15 @@
                         </table>
 <?php 
 if(isset($_GET['delete'])) {
-    $id = $_GET['delete'];
-    $query = "DELETE FROM users WHERE user_id = $id";
-    $delete_user = mysqli_query($connection,$query);
-    header('Location:users.php');
+    if(isset($_SESSION['user_role'])) {
+        if($_SESSION['user_role'] === 'admin') {
+            $id = mysqli_real_escape_string($connection,$_GET['delete']);
+            $query = "DELETE FROM users WHERE user_id = $id";
+            $delete_user = mysqli_query($connection,$query);
+            header('Location:users.php');
+        }
+    }
+   
 }
 ?>
 

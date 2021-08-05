@@ -11,7 +11,11 @@
             <h1 class="page-header">
                    <?php if(isset($_GET['author'])) {
                        $author = $_GET['author'] ;
-                       echo $author."'s Posts";
+                       $query = "SELECT * FROM users WHERE user_id = $author";
+                       $get_author = mysqli_query($connection,$query);
+                       $row = mysqli_fetch_array($get_author);
+                       $author_name = $row['firstname'] . " " . $row['lastname'];
+                       echo $author_name."'s Posts";
                    }?>
                    
                     <small>Read Below!</small>

@@ -8,13 +8,18 @@ function confirm($result) {
 
 ?>
 
+<?php function escape($string) {
+    global $connection;
+    return mysqli_real_escape_string($connection,trim(($string)));
+}
+?>
 
 <?php 
     function addCategory(){
         global $connection;
 
         if(isset($_POST['submit'])) {
-            $cat_title = $_POST['cat_title'];
+            $cat_title = escape($_POST['cat_title']);
             if($cat_title === '' || empty($cat_title)) {
                 echo 'this field should not be empty';
             } else {
@@ -107,6 +112,12 @@ function showAllPosts() {
         <tr>
         <td><input type='checkbox' class='checkboxes' name='checkboxArray[]' value="<?php echo $id ?>"></td>
         <td><?php echo $id ?></td>
+        <?php 
+            $query = "SELECT * FROM users WHERE user_id = '$author'";
+            $post_author = mysqli_query($connection,$query);
+            $row = mysqli_fetch_array($post_author);
+            $author = $row['username'];
+        ?>
         <td><?php echo $author ?></td>
         <td><?php echo $title ?></a></td>
         <?php 
@@ -147,13 +158,13 @@ function updatePost() {
     global $connection;
     $id = $_GET['id'];
     if(isset($_POST['update_post'])) {
-        $title = $_POST['title'];
-        $cat_id = $_POST['cat_id'];
-        $author = $_POST['author'];
-        $status = $_POST['status'];
-        $image = $_POST['image'];
-        $tags = $_POST['tags'];
-        $content = $_POST['post_content'];
+        $title = escape($_POST['title']);
+        $cat_id = escape($_POST['cat_id']);
+        $author = escape($_POST['author']);
+        $status = escape($_POST['status']);
+        $image = escape($_POST['image']);
+        $tags = escape($_POST['tags']);
+        $content = escape($_POST['content']);
         $query = "UPDATE posts set post_title = '$title', ";
         $query.= "post_category_id='$cat_id', ";
         $query.= "post_author='$author', ";
@@ -292,7 +303,7 @@ function showAllUsers() {
 function postComments() {
     global $connection;
     if(isset($_GET['p_id'])) {
-        $p_id = $_GET['p_id'];
+        $p_id = escape($_GET['p_id']);
         $query = "SELECT * FROM comments WHERE comment_post_id = $p_id ";
         $post_comments = mysqli_query($connection,$query);
         if(!$post_comments) die ('error retrieving comments');
