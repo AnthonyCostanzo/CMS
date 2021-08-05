@@ -40,8 +40,14 @@
                 <h2>
                     <a href="post.php?p_id=<?php echo $post_id?>"><?php echo $post_title ?></a>
                 </h2>
+                <?php 
+                $query = "SELECT * FROM users WHERE user_id = $post_author";
+                $post_author_query = mysqli_query($connection,$query);
+                $row = mysqli_fetch_array($post_author_query);
+                $author = $row['firstname'] . " " . $row['lastname'];
+                ?>
                 <p class="lead">
-                    by <a href="index.php"><?php echo $post_author ?></a>
+                    by <a href="index.php"><?php echo $author ?></a>
                 </p>
                 <p><span class="glyphicon glyphicon-time"></span> Posted on <?php echo $post_date ?> </p>
                 <hr>
